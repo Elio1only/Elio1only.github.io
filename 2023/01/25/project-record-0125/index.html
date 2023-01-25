@@ -1,0 +1,226 @@
+<!DOCTYPE HTML>
+<html lang="zh_CN">
+<head>
+  <meta charset="utf-8">
+  
+  <title>project record 2 | Elio&#39;s blog</title>
+  <meta name="author" content="Elio">
+  
+  <meta name="description" content="Notebook">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="project record 2"/>
+  <meta property="og:site_name" content="Elio&#39;s blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Elio&#39;s blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-project-record-0125" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2023-01-25T09:47:28.000Z"><a href="/2023/01/25/project-record-0125/">2023-01-25</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">project record 2</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <p>6.����Ч��Anima</p>
+<p>�����ļ��� Assets -&gt; Animation -&gt; Player    create AnimationController<br>window -&gt; Animation -&gt; Animation �򿪶������<br>Smaples ���ö�������</p>
+<p>window -&gt; Animation -&gt; Animator<br>parameters ���ñ仯����</p>
+<p>�޸ı仯��ͷ<br>ȥ��  Has Exit Time<br>Transition Duration ���ó� 0</p>
+<p>��Player Animation  �ӵ� Player<br>�༭�仯����<br>public Animator anim;<br>anim.SetFloat(“running”, Mathf.Abs(facedirection));<br>������JaeYoo</p>
+<ol start="7">
+<li><p>��Ծ���� LayerMask<br>���õ�Parameter��ע���½���parameter�����ֺ�script�������һ��Ҫһ��<br>{<br> public Rigidbody2D rb;<br> public Animator anim;       //��ȡ����<br> public LayerMask ground;    //��ȡ�˸�Tilemap��ͼ��ground<br> public Collider2D coll;     //��ȡ��ײ��<br> public float speed, jumpForce;<br> public float horizontalMove;<br> bool jumpPressed;<br> void Start()<br> {</p>
+<pre><code> rb = GetComponent&lt;Rigidbody2D&gt;();   //������ ����
+</code></pre>
+<p> }<br> void Update()<br> {</p>
+<pre><code> if (Input.GetButtonDown(&quot;Jump&quot;))
+ &#123;
+     jumpPressed = true;
+ &#125;
+</code></pre>
+<p> }<br> void FixedUpdate()  //�ú�������һ���̶�֡�ʵ�֡ʱ������<br> {</p>
+<pre><code> SwitchAnim();
+ GroundMovement();
+ Jump();
+</code></pre>
+<p> }<br> void GroundMovement()   //��ɫ�ƶ�<br> {</p>
+<pre><code> horizontalMove = Input.GetAxisRaw(&quot;Horizontal&quot;);  //ֻ����-1��0��1 ��ȡ����
+ rb.velocity = new Vector2(horizontalMove * speed, rb.velocity.y);
+ anim.SetFloat(&quot;running&quot;, Mathf.Abs(horizontalMove));
+
+ if (horizontalMove != 0)                     //��=�ǲ�����
+ &#123;
+     transform.localScale = new Vector3(horizontalMove, 1, 1); //�ı䳯��
+ &#125;
+</code></pre>
+<p> }<br> void Jump() //��ɫ��Ծ<br> {</p>
+<pre><code> if (jumpPressed)
+ &#123;
+     rb.velocity = new Vector2(rb.velocity.x, jumpForce);   //y����������Ծ��
+     jumpPressed = false;
+     anim.SetBool(&quot;jumping&quot;, true);
+ &#125;
+</code></pre>
+<p> }</p>
+<p> void SwitchAnim() //�ı䶯��<br> {</p>
+<pre><code> anim.SetBool(&quot;idle&quot;, false);         //float�Ǵ���С����ĺ�����Bool��true or false�ĺ���
+ if (anim.GetBool(&quot;jumping&quot;))         //�����&quot;jumping&quot;�ĺ���
+ &#123;
+     if (rb.velocity.y &lt; 0)           //y &lt; 0 =����ʱ���ٶ��Ǹ���
+     &#123;
+         anim.SetBool(&quot;jumping&quot;, false);   //���Բ�����jump����ת������fall
+         anim.SetBool(&quot;falling&quot;, true);
+     &#125;
+
+ &#125;
+
+ else if (coll.IsTouchingLayers(ground))   //�������ground
+ &#123;
+     anim.SetBool(&quot;falling&quot;, false);       //ֹͣ����
+     anim.SetBool(&quot;idle&quot;, true);           //��Ϊilde
+ &#125;
+</code></pre>
+<p> }<br>}</p>
+</li>
+</ol>
+<p>9.��ͷ����Cinemachine<br>package manager��������cinemachine��<br>�Ҽ�Hierarchy-Create-Cinemachine-2D camera</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">Kommentare</h1>
+
+  
+      <div id="fb-root"></div>
+<script>
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=123456789012345";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+</script>
+
+<div class="fb-comments" data-href="http://example.com/2023/01/25/project-record-0125/index.html" data-num-posts="5" data-width="840" data-colorscheme="light"></div>
+      
+  
+</section>
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Suche">
+    <input type="hidden" name="as_sitesearch" value="example.com">
+  </form>
+</div>
+
+
+  
+
+  
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2023 Elio
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+<script>
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>
