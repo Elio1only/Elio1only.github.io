@@ -68,60 +68,10 @@
 <p>�޸ı仯��ͷ<br>ȥ��  Has Exit Time<br>Transition Duration ���ó� 0</p>
 <p>��Player Animation  �ӵ� Player<br>�༭�仯����<br>public Animator anim;<br>anim.SetFloat(“running”, Mathf.Abs(facedirection));<br>������JaeYoo</p>
 <ol start="7">
-<li><p>��Ծ���� LayerMask<br>���õ�Parameter��ע���½���parameter�����ֺ�script�������һ��Ҫһ��<br>{<br> public Rigidbody2D rb;<br> public Animator anim;       //��ȡ����<br> public LayerMask ground;    //��ȡ�˸�Tilemap��ͼ��ground<br> public Collider2D coll;     //��ȡ��ײ��<br> public float speed, jumpForce;<br> public float horizontalMove;<br> bool jumpPressed;<br> void Start()<br> {</p>
-<pre><code> rb = GetComponent&lt;Rigidbody2D&gt;();   //������ ����
-</code></pre>
-<p> }<br> void Update()<br> {</p>
-<pre><code> if (Input.GetButtonDown(&quot;Jump&quot;))
- &#123;
-     jumpPressed = true;
- &#125;
-</code></pre>
-<p> }<br> void FixedUpdate()  //�ú�������һ���̶�֡�ʵ�֡ʱ������<br> {</p>
-<pre><code> SwitchAnim();
- GroundMovement();
- Jump();
-</code></pre>
-<p> }<br> void GroundMovement()   //��ɫ�ƶ�<br> {</p>
-<pre><code> horizontalMove = Input.GetAxisRaw(&quot;Horizontal&quot;);  //ֻ����-1��0��1 ��ȡ����
- rb.velocity = new Vector2(horizontalMove * speed, rb.velocity.y);
- anim.SetFloat(&quot;running&quot;, Mathf.Abs(horizontalMove));
-
- if (horizontalMove != 0)                     //��=�ǲ�����
- &#123;
-     transform.localScale = new Vector3(horizontalMove, 1, 1); //�ı䳯��
- &#125;
-</code></pre>
-<p> }<br> void Jump() //��ɫ��Ծ<br> {</p>
-<pre><code> if (jumpPressed)
- &#123;
-     rb.velocity = new Vector2(rb.velocity.x, jumpForce);   //y����������Ծ��
-     jumpPressed = false;
-     anim.SetBool(&quot;jumping&quot;, true);
- &#125;
-</code></pre>
-<p> }</p>
-<p> void SwitchAnim() //�ı䶯��<br> {</p>
-<pre><code> anim.SetBool(&quot;idle&quot;, false);         //float�Ǵ���С����ĺ�����Bool��true or false�ĺ���
- if (anim.GetBool(&quot;jumping&quot;))         //�����&quot;jumping&quot;�ĺ���
- &#123;
-     if (rb.velocity.y &lt; 0)           //y &lt; 0 =����ʱ���ٶ��Ǹ���
-     &#123;
-         anim.SetBool(&quot;jumping&quot;, false);   //���Բ�����jump����ת������fall
-         anim.SetBool(&quot;falling&quot;, true);
-     &#125;
-
- &#125;
-
- else if (coll.IsTouchingLayers(ground))   //�������ground
- &#123;
-     anim.SetBool(&quot;falling&quot;, false);       //ֹͣ����
-     anim.SetBool(&quot;idle&quot;, true);           //��Ϊilde
- &#125;
-</code></pre>
-<p> }<br>}</p>
-</li>
+<li>��Ծ���� LayerMask<br>���õ�Parameter��ע���½���parameter�����ֺ�script�������һ��Ҫһ��</li>
 </ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    public Rigidbody2D rb;</span><br><span class="line">    public Animator anim;       //��ȡ����</span><br><span class="line">    public LayerMask ground;    //��ȡ�˸�Tilemap��ͼ��ground</span><br><span class="line">    public Collider2D coll;     //��ȡ��ײ��</span><br><span class="line">    public float speed, jumpForce;</span><br><span class="line">    public float horizontalMove;</span><br><span class="line">    bool jumpPressed;</span><br><span class="line">    void Start()</span><br><span class="line">    &#123;</span><br><span class="line">        rb = GetComponent&lt;Rigidbody2D&gt;();   //������ ����</span><br><span class="line">    &#125;</span><br><span class="line">    void Update()</span><br><span class="line">    &#123;</span><br><span class="line">        if (Input.GetButtonDown(&quot;Jump&quot;))</span><br><span class="line">        &#123;</span><br><span class="line">            jumpPressed = true;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    void FixedUpdate()  //�ú�������һ���̶�֡�ʵ�֡ʱ������</span><br><span class="line">    &#123;</span><br><span class="line">        SwitchAnim();</span><br><span class="line">        GroundMovement();</span><br><span class="line">        Jump();</span><br><span class="line">      </span><br><span class="line">    &#125;</span><br><span class="line">    void GroundMovement()   //��ɫ�ƶ�</span><br><span class="line">    &#123;</span><br><span class="line">        horizontalMove = Input.GetAxisRaw(&quot;Horizontal&quot;);  //ֻ����-1��0��1 ��ȡ����</span><br><span class="line">        rb.velocity = new Vector2(horizontalMove * speed, rb.velocity.y);</span><br><span class="line">        anim.SetFloat(&quot;running&quot;, Mathf.Abs(horizontalMove));</span><br><span class="line"></span><br><span class="line">        if (horizontalMove != 0)                     //��=�ǲ�����</span><br><span class="line">        &#123;</span><br><span class="line">            transform.localScale = new Vector3(horizontalMove, 1, 1); //�ı䳯��</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    void Jump() //��ɫ��Ծ</span><br><span class="line">    &#123;</span><br><span class="line">        if (jumpPressed)</span><br><span class="line">        &#123;</span><br><span class="line">            rb.velocity = new Vector2(rb.velocity.x, jumpForce);   //y����������Ծ��</span><br><span class="line">            jumpPressed = false;</span><br><span class="line">            anim.SetBool(&quot;jumping&quot;, true);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void SwitchAnim() //�ı䶯��</span><br><span class="line">    &#123;</span><br><span class="line">        anim.SetBool(&quot;idle&quot;, false);         //float�Ǵ���С����ĺ�����Bool��true or false�ĺ���</span><br><span class="line">        if (anim.GetBool(&quot;jumping&quot;))         //�����&quot;jumping&quot;�ĺ���</span><br><span class="line">        &#123;</span><br><span class="line">            if (rb.velocity.y &lt; 0)           //y &lt; 0 =����ʱ���ٶ��Ǹ���</span><br><span class="line">            &#123;</span><br><span class="line">                anim.SetBool(&quot;jumping&quot;, false);   //���Բ�����jump����ת������fall</span><br><span class="line">                anim.SetBool(&quot;falling&quot;, true);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        else if (coll.IsTouchingLayers(ground))   //�������ground</span><br><span class="line">        &#123;</span><br><span class="line">            anim.SetBool(&quot;falling&quot;, false);       //ֹͣ����</span><br><span class="line">            anim.SetBool(&quot;idle&quot;, true);           //��Ϊilde</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>9.��ͷ����Cinemachine<br>package manager��������cinemachine��<br>�Ҽ�Hierarchy-Create-Cinemachine-2D camera</p>
 
       
